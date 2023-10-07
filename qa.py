@@ -34,10 +34,14 @@ def prompt(query):
 if __name__ == "__main__":
     # load embedding
     load_embedding()
-    # 循环输入查询，直到输入 "exit"
+    # 循环输入查询，直到输入 "exit" 测试
     while True:
         query = input("Enter query (or 'exit' to quit): ")
         if query == 'exit':
             print('exit')
             break
+        elif query.startswith("file://"):
+            # 在file://的这种情况下，我们需要从文件中读取对应的内容 目前多行输入可以通过这种方式来处理。
+            print(query)
+            query = open(query[7:]).read()
         print("Query:" + query + '\nAnswer:' + prompt(query) + '\n')
