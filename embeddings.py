@@ -1,3 +1,5 @@
+import os
+
 import requests
 from bs4 import BeautifulSoup
 from langchain.embeddings import OpenAIEmbeddings
@@ -15,24 +17,6 @@ def extract_text_from(url):
     return '\n'.join(line for line in lines if line)
 
 if __name__ == '__main__':
-    souffle_urls = ['https://souffle-lang.github.io/program',
-            'https://souffle-lang.github.io/relations',
-            'https://souffle-lang.github.io/types',
-            'https://souffle-lang.github.io/facts',
-            'https://souffle-lang.github.io/rules',
-            'https://souffle-lang.github.io/constraints',
-            'https://souffle-lang.github.io/arguments',
-            'https://souffle-lang.github.io/aggregates',
-            'https://souffle-lang.github.io/directives',
-            'https://souffle-lang.github.io/directives',
-            'https://souffle-lang.github.io/components',
-            'https://souffle-lang.github.io/choice',
-            'https://souffle-lang.github.io/subsumption',
-            'https://souffle-lang.github.io/functors',
-            'https://souffle-lang.github.io/pragmas',
-            'https://souffle-lang.github.io/tutorial',
-            'https://souffle-lang.github.io/examples'
-            ]
     ddlog_files = [
         './ddlog-md/language_reference.md',
         './ddlog-md/tutorial.md'
@@ -40,8 +24,8 @@ if __name__ == '__main__':
     pages = []
     for file in ddlog_files:
         pages.append({'text': open(file,'r').read(),'source': file})
-    for url in souffle_urls:
-        pages.append({'text': extract_text_from(url), 'source': url})
+    for file in os.listdir('./souffle-doc'):
+        pages.append({'text': open('./souffle-doc/' + file, 'r').read(), 'source': './souffle-doc/' + file})
 
     text_splitter = CharacterTextSplitter(chunk_size=1500, separator="\n")
     markdown_splitter = MarkdownTextSplitter(chunk_size=1500)
