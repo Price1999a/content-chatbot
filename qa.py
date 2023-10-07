@@ -5,6 +5,8 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 
 global retriever
+
+
 def load_embedding():
     embedding = OpenAIEmbeddings()
     global retriever
@@ -24,9 +26,10 @@ def prompt(query):
     docs = retriever.get_relevant_documents(query)
 
     # 基于docs来prompt，返回你想要的内容
-    chain = load_qa_chain(ChatOpenAI(temperature=0.5), chain_type="stuff", prompt=PROMPT)
+    chain = load_qa_chain(ChatOpenAI(temperature=0.5), chain_type="stuff", prompt=PROMPT, verbose=True)
     result = chain({"input_documents": docs, "question": query}, return_only_outputs=False)
     return result['output_text']
+
 
 if __name__ == "__main__":
     # load embedding

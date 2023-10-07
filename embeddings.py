@@ -48,7 +48,7 @@ if __name__ == '__main__':
     documents = []
     for page in pages:
         metadata = {"source": page['source']}
-        if(page['source'].startswith('https://')):
+        if page['source'].startswith('https://'):
             splits = text_splitter.split_text(page['text'])
         else:
             splits = markdown_splitter.split_text(page['text'])
